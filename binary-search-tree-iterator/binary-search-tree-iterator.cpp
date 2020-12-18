@@ -12,27 +12,29 @@
 class BSTIterator {
 public:
     vector<int> tree;
-    int counter = 0;
+    int count = 0;
     BSTIterator(TreeNode* root) {
         dfs(root);
     }
-    void dfs(TreeNode* root){
-        if(!root)return;
-        dfs(root->left);
+    void dfs(TreeNode *root){
+        if(!root) return;
+        dfs(root -> left);
         tree.push_back(root->val);
-        dfs(root->right) ;
-        
+        dfs(root ->right);
     }
+    
     int next() {
-        int x = tree[counter];
-        counter++;
+        int x = tree[count];
+        count++;
         return x;
     }
     
     bool hasNext() {
-        if(counter < tree.size())
+        if(count < tree.size())
             return true;
-        else return false;
+        else 
+            return false;
+            
     }
 };
 ​
