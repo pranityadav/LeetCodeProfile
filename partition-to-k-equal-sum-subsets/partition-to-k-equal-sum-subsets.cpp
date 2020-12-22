@@ -9,7 +9,7 @@ public:
 ​
         if(sum == 0){
             return helper(nums, nums.size()-1, target, target, k-1, visited);
-        }
+        }
 ​
         bool flag;
         if(nums[n] > sum || visited[n])
