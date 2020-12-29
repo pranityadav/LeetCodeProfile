@@ -1,37 +1,37 @@
 class Solution {
 public:
-    vector<int> findOrder(int numCourses, vector<vector<int>>& prereq) {
-        vector<vector<int>> graph(numCourses);
-        vector<int> indegree(numCourses);
+    vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {
+        vector<vector<int>> graph(numCourses,vector<int> (0));
+        vector<int> Indegree(numCourses, 0);
+        queue<int> ZeroDegree;
         vector<int> ans;
-        for(int i=0;i<prereq.size();i++){
-            graph[prereq[i][0]].push_back(prereq[i][1]);
-            indegree[prereq[i][1]]++;
+        for(int i = 0; i<prerequisites.size(); i++){
+            graph[prerequisites[i][1]].push_back(prerequisites[i][0]);
+            Indegree[prerequisites[i][0]]++;
+        }
+        for(int i = 0; i<Indegree.size(); i++){
+            if(Indegree[i] == 0){
+                ZeroDegree.push(i);
+                ans.push_back(i);
+                numCourses--;
+            }   
         }
         
-        queue<int> nodesWithDegreeZero;
-        int count=0;
         
-        for(int i=0;i<indegree.size();i++){
-            if(indegree[i]==0){
-                nodesWithDegreeZero.push(i);
-            }
-        }
-        while(!nodesWithDegreeZero.empty()){
-            int curr=nodesWithDegreeZero.front();
-            nodesWithDegreeZero.pop();
-            count++;
-            ans.insert(ans.begin(),curr);
-            for(int i=0;i<graph[curr].size();i++){
-                if(--indegree[graph[curr][i]]==0){
-                    nodesWithDegreeZero.push(graph[curr][i]);
+        while(!ZeroDegree.empty()){
+            int node  = ZeroDegree.front();
+            ZeroDegree.pop();
+            for(int i = 0; i<graph[node].size(); i++){
+                Indegree[graph[node][i]]--;
+                if(Indegree[graph[node][i]] == 0){
+                     ZeroDegree.push(graph[node][i]);
+                      ans.push_back(graph[node][i]);
+                      numCourses--;  
                 }
             }
         }
-        if(count!=numCourses){
-            vector<int> tempans;
-            return tempans;
-        }
-        return ans;
+​
+        vector<int> temp;
+        return (numCourses==0) ? ans : temp;
     }
 };
